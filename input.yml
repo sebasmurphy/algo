@@ -11,6 +11,7 @@
       ssh_tunneling: false
       windows: false
       store_cakey: false
+      wireguard_only: false
     providers_map:
       - { name: DigitalOcean, alias: digitalocean }
       - { name: Amazon Lightsail, alias: lightsail }
@@ -39,7 +40,12 @@
     - name: Set facts based on the input
       set_fact:
         algo_provider: "{{ provider | default(providers_map[_algo_provider.user_input|default(omit)|int - 1]['alias']) }}"
-
+    - pause:
+        prompt: |
+          Do you want to skip strongSwan setup and only enable wireguard?
+          [y/N]
+        register: _wireguard_only
+        when: wireguard_only is undefined
     - pause:
         prompt: |
           Name the vpn server
@@ -108,6 +114,10 @@
           {%- elif _algo_server_name.user_input is defined and _algo_server_name.user_input != "" %}{% set _server = _algo_server_name.user_input %}
           {%- else %}{% set _server = defaults['server_name'] %}{% endif -%}
           {{ _server | regex_replace('(?!\.)(\W|_)', '-') }}
+        algo_wireguard_only: >-
+          {% if wireguard_only is defined %}{{ wireguard_only | bool }}
+          {%- elif _wireguard_only.user_input is defined and _wireguard_only.user_input != "" %}{{ booleans_map[_wireguard_only.user_input] | default(defaults['wireguard_only']) }}
+          {%- else %}false{% endif %}
         algo_ondemand_cellular: >-
           {% if ondemand_cellular is defined %}{{ ondemand_cellular | bool }}
           {%- elif _ondemand_cellular.user_input is defined and _ondemand_cellular.user_input != "" %}{{ booleans_map[_ondemand_cellular.user_input] | default(defaults['ondemand_cellular']) }}

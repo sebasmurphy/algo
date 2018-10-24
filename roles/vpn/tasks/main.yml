@@ -7,7 +7,7 @@
       when: wireguard_enabled and ansible_distribution == 'Ubuntu'
 
     - include_tasks: ubuntu.yml
-      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+      when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and not wireguard_only
 
     - name: Install strongSwan
       package: name=strongswan state=present
