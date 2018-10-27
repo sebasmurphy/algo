@@ -8,7 +8,7 @@
   pre_tasks:
     - block:
       - name: Local pre-tasks
-        import_tasks: playbooks/cloud-pre.yml
+        import_tasks: playbooks/cloud-pre.yml  #static copied to child
         tags: always
       rescue:
         - debug: var=fail_hint
@@ -39,7 +39,7 @@
   post_tasks:
     - block:
       - name: Local post-tasks
-        import_tasks: playbooks/cloud-post.yml
+        import_tasks: playbooks/cloud-post.yml #static copied to child
         become: false
         tags: cloud
       rescue:
