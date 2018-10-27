@@ -1,4 +1,4 @@
-- name: restart strongswan
+- name: restart strongswan                  #strongswan only
   service: name=strongswan state=restarted
 
 - name: daemon-reload
