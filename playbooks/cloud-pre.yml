@@ -11,7 +11,7 @@
         'algo_ssh_tunneling "{{ algo_ssh_tunneling }}"' \
         'algo_windows "{{ algo_windows }}"' \
         'wireguard_enabled "{{ wireguard_enabled }}"' \
-        'wireguard_only "{{ wireguard_only }}"' \
+        'strongswan_enabled' "{{ strongswan_enabled }}" \
         'dns_encryption "{{ dns_encryption }}"' \
         > /dev/tty
 

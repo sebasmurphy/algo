@@ -19,6 +19,9 @@
     - role: wireguard
       when: wireguard_enabled
       tags: wireguard
+    - role: strongswan
+      when: strongswan_enabled
+      tags: strongswan
     - role: vpn
       tags: vpn
     - role: ssh_tunneling

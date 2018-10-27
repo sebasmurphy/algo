@@ -5,14 +5,13 @@
   - name: Install strongSwan
     package: name=strongswan state=present
 
-    # - import_tasks: ipsec_configuration.yml
-    # - import_tasks: openssl.yml
-    #   tags: update-users
-    # - import_tasks: distribute_keys.yml
-    # - import_tasks: client_configs.yml
-    #   delegate_to: localhost
-    #   become: no
-    #   tags: update-users
+  - name: IPsec Configuation
+    include_tasks: ipsec_configuration.yml
+    include_tasks: distribute_keys.yml
+    include_taks:  client_configs.yml
+    delegate_to: localhost
+    become: false
+    tags: update-users
 
   - name: strongSwan started
     service:

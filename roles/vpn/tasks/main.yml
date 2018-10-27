@@ -6,30 +6,30 @@
       tags: wireguard
       when: wireguard_enabled and ansible_distribution == 'Ubuntu'
 
-    - include_tasks: ubuntu.yml
-      when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and not wireguard_only
+    # - include_tasks: ubuntu.yml
+    #   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
     - name: Install strongSwan    #strongswan only
       include_role:
         name: strongswan
       tags: strongswan
       when: strongswan_enabled
-      package: name=strongswan state=present
+    #   package: name=strongswan state=present
 
-    - import_tasks: ipsec_configuration.yml  #strongwwan only
-    - import_tasks: openssl.yml  # require this to update into the server
-      tags: update-users
-    - import_tasks: distribute_keys.yml  #strongswan task
-    - import_tasks: client_configs.yml   #possibly not requred
-      delegate_to: localhost
-      become: no
-      tags: update-users
+    # - import_tasks: ipsec_configuration.yml  #strongwwan only
+    # - import_tasks: openssl.yml  # require this to update into the server
+    #   tags: update-users
+    # - import_tasks: distribute_keys.yml  #strongswan task
+    # - import_tasks: client_configs.yml   #possibly not requred
+    #   delegate_to: localhost
+    #   become: no
+    #   tags: update-users
 
-    - name: strongSwan started    #def a strongswan only thing
-      service:
-        name: strongswan
-        state: started
-        enabled: true
+    # - name: strongSwan started    #def a strongswan only thing
+    #   service:
+    #     name: strongswan
+    #     state: started
+    #     enabled: true
 
     - meta: flush_handlers
   rescue:
